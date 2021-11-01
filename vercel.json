@@ -1,7 +1,7 @@
 {
   "build": {
     "env": {
-      "FAUNA_SERVER_KEY": "@fauna-secret-key"
+      "FAUNA_SERVER_KEY": "fnAEW5UOyIAASIJq0QXLIG-uvl0ZE3JtEpHDN_s9"
     }
   }
 }

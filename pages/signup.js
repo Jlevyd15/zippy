@@ -1,36 +1,35 @@
-import { useState } from 'react'
-import Router from 'next/router'
-import Layout from '../components/layout'
+import { useState } from "react";
+import Router from "next/router";
+import Layout from "../components/layout";
 
 function Signup() {
   const [userData, setUserData] = useState({
-    email: '',
-    password: '',
-    error: '',
-  })
+    email: "",
+    password: "",
+    error: "",
+  });
 
   async function handleSubmit(event) {
-    event.preventDefault()
-    setUserData({ ...userData, error: '' })
+    event.preventDefault();
+    setUserData({ ...userData, error: "" });
 
-    const email = userData.email
-    const password = userData.password
+    const email = userData.email;
+    const password = userData.password;
 
     try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
-      })
+      });
 
       if (response.status !== 200) {
-        throw new Error(await response.text())
+        throw new Error(await response.json());
       }
 
-      Router.push('/profile')
+      Router.push("/profile");
     } catch (error) {
-      console.error(error)
-      setUserData({ ...userData, error: error.message })
+      setUserData({ ...userData, error: error.message });
     }
   }
 
@@ -59,9 +58,7 @@ function Signup() {
             name="password"
             value={userData.password}
             onChange={(event) =>
-              setUserData(
-                Object.assign({}, userData, { password: event.target.value })
-              )
+              setUserData({ ...userData, password: event.target.value })
             }
           />
 
@@ -101,7 +98,7 @@ function Signup() {
         }
       `}</style>
     </Layout>
-  )
+  );
 }
 
-export default Signup
+export default Signup;

@@ -1,10 +1,10 @@
-import Head from 'next/head'
-import Header from './header'
+import Head from "next/head";
+import Header from "./header";
 
 const Layout = (props) => (
   <>
     <Head>
-      <title>With Cookies</title>
+      <title>Zippy</title>
     </Head>
     <style jsx global>{`
       *,
@@ -16,9 +16,9 @@ const Layout = (props) => (
       body {
         margin: 0;
         color: #333;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-          'Helvetica Neue', Arial, Noto Sans, sans-serif, 'Apple Color Emoji',
-          'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, Noto Sans, sans-serif, "Apple Color Emoji",
+          "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
       }
 
       .container {
@@ -34,6 +34,6 @@ const Layout = (props) => (
       <div className="container">{props.children}</div>
     </main>
   </>
-)
+);
 
-export default Layout
+export default Layout;
