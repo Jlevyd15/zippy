@@ -1,0 +1,15 @@
+name: SMS cron job
+on:
+  schedule:
+    # every 15 min starting on the 30 min
+    # on TUE, WED, and THUR
+    - cron: "0/1 30/15 * ? * TUE,WED,THU *"
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SMS cron job
+        run: |
+          curl --request POST \
+          --url 'https://zippy-seven.vercel.app/api/sms' \
+          --header 'Authorization: Bearer ${{ secrets.ACTION_KEY }}'
