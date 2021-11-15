@@ -1,5 +1,5 @@
 import cookie from "cookie";
-import { FAUNA_SECRET_COOKIE } from "../../utils/fauna-auth";
+import { FAUNA_SECRET_COOKIE } from "../../../utils/fauna-auth";
 
 const TRANSIT_LINES_API = `https://api.511.org/transit/lines?api_key=${process.env.TRANSIT_API_KEY}&operator_id=SF&format=json`;
 
