@@ -30,12 +30,13 @@ const getUsersData = async () => {
 };
 
 const getArrivalTimesPerLine = async (lines) => {
-  console.log(lines);
   // TODO(@jlevyd15) this needs to be saved in the db per user
   const stopId = 14756;
   try {
     const response = await fetch(
-      `https://zippy-seven.vercel.app/api/transit/times?stopId=${stopId}&lineIds=${lines}`,
+      `https://zippy-seven.vercel.app/api/transit/times?stopId=${stopId}&lineIds=${JSON.stringify(
+        lines
+      )}`,
       {
         headers: {
           Authorization: `Bearer ${process.env.ACTION_KEY}`,

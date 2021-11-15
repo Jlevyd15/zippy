@@ -77,11 +77,9 @@ export default async function times(req, res) {
   if (!Array.isArray(jsonLineIds) || jsonLineIds.length < 1) {
     return res.status(401).send("lineIds must be an Array of lineIds");
   }
-  console.log("in times API", jsonLineIds, stopId);
 
   Promise.all(
     jsonLineIds.map((lineId) => {
-      console.log("lineId", lineId);
       try {
         return getTimetableData(stopId, lineId);
       } catch (err) {
@@ -93,7 +91,6 @@ export default async function times(req, res) {
     })
   )
     .then((data) => {
-      console.log("done!", data);
       return res.status(200).json({ data });
     })
     .catch((err) => {

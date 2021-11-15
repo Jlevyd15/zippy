@@ -5,7 +5,7 @@ import { fetcher } from "../utils/network";
 import Layout from "../components/layout";
 
 const PROFILE_API = "/api/profile";
-const TRANSIT_API = "/api/transit";
+const TRANSIT_API = "/api/transit/lines";
 
 const Profile = () => {
   const router = useRouter();
