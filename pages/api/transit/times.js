@@ -32,7 +32,7 @@ const getFormattedTimetableData = (data) => {
         hour: "numeric",
         minute: "numeric",
         hour12: true,
-        timeZone: "PST",
+        timeZone: "America/Los_Angeles",
       });
       lineId = stopsTimeData[i]?.["TargetedVehicleJourney"]?.["LineRef"];
       results.push(arrivalTimeInTwelveHourFormat);
