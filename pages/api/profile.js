@@ -45,7 +45,9 @@ export default async function profile(req, res) {
   const faunaSecret = cookies[FAUNA_SECRET_COOKIE];
 
   if (!faunaSecret) {
-    return res.status(401).send("Auth cookie missing.");
+    return res
+      .status(401)
+      .json({ error: "Auth cookie missing.", message: "You're not logged in" });
   }
 
   // handle when the user posts profile updates

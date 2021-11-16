@@ -1,6 +1,4 @@
-import cookie from "cookie";
 import { Buffer } from "buffer";
-import { FAUNA_SECRET_COOKIE } from "../../../utils/fauna-auth";
 
 const getTransitTimetableAPI = (stopId, lineId) =>
   `https://api.511.org/transit/stoptimetable?api_key=${process.env.TRANSIT_API_KEY}&operatorref=SF&monitoringref=${stopId}&format=json&lineref=${lineId}`;
@@ -64,18 +62,18 @@ const getTimetableData = async (stopId, lineId) => {
 
 export default async function times(req, res) {
   const { APP_API_KEY } = process.env;
-  const cookies = cookie.parse(req.headers.cookie ?? "");
-  const faunaSecret = cookies[FAUNA_SECRET_COOKIE];
   const ACTION_KEY = req.headers?.authorization?.split(" ")[1];
   const { stopId, lineIds } = req.query;
   const jsonLineIds = JSON.parse(lineIds);
 
-  if (!faunaSecret || ACTION_KEY !== APP_API_KEY || !ACTION_KEY) {
-    return res.status(401).send("Auth error");
+  if (ACTION_KEY !== APP_API_KEY || !ACTION_KEY) {
+    return res.status(401).json({ error: "", message: "Auth error" });
   }
 
   if (!Array.isArray(jsonLineIds) || jsonLineIds.length < 1) {
-    return res.status(401).send("lineIds must be an Array of lineIds");
+    return res
+      .status(401)
+      .json({ error: "", message: "lineIds must be an Array of lineIds" });
   }
 
   Promise.all(

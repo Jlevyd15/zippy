@@ -30,14 +30,14 @@ const Profile = () => {
       setUserError(err);
     }
     // TODO(@jlevyd15) this is potentially a security risk, rework this
-    const parsedTransitData = eval(transitData.data);
+    const parsedTransitData = eval(transitData?.data);
     const {
       userId,
       phoneNumber: userPhone,
       email: userEmail,
       lines: userLines,
       smsStatus,
-    } = user.data;
+    } = user?.data || {};
     setUserData({
       userId,
       userPhone,
@@ -164,7 +164,7 @@ const Profile = () => {
                 <legend>Choose transit lines</legend>
                 {transitLines.map((line) => {
                   return (
-                    <div>
+                    <div key={line.Id}>
                       <input
                         type="checkbox"
                         id={line.Id}
@@ -173,7 +173,7 @@ const Profile = () => {
                         onChange={handleCheckboxChange}
                         checked={userData.userLines?.includes(line.Id)}
                       />
-                      <label for={line.Id}>
+                      <label htmlFor={line.Id}>
                         <b>{line.Id}</b>
                         {` - ${line.Name}`}
                       </label>

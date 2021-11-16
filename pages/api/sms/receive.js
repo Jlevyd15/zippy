@@ -29,9 +29,7 @@ const getUsersData = async () => {
   }
 };
 
-const getArrivalTimesPerLine = async (lines) => {
-  // TODO(@jlevyd15) this needs to be saved in the db per user
-  const stopId = 14756;
+const getArrivalTimesPerLine = async (lines, stopId) => {
   try {
     const response = await fetch(
       `https://zippy-seven.vercel.app/api/transit/times?stopId=${stopId}&lineIds=${JSON.stringify(
@@ -39,12 +37,12 @@ const getArrivalTimesPerLine = async (lines) => {
       )}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.ACTION_KEY}`,
+          Authorization: `Bearer ${process.env.APP_API_KEY}`,
           "Content-Type": "application/json",
         },
       }
     );
-    const json = await response.text();
+    const json = await response.json();
     return json;
   } catch (err) {
     return {
@@ -59,6 +57,20 @@ const getFormattedMessageForArrivalTimes = (arrivalTimesPerLine) =>
     msg += `${lineId} - ${times.join(" ")} \n`;
     return msg;
   }, "");
+
+// This should convert a user friendly stop name "Home", "Work" to stopId
+// stopIds should be saved in the db
+const getStopIdFromSavedName = (stopName) => {
+  // TODO(@jlevyd15) this needs to be saved in the db per user, hard coding this for now
+  const stopIdHome = 14756;
+  const stopIdWork = 15684;
+  if (stopName === "Home") {
+    return stopIdHome;
+  } else if (stopName === "Work") {
+    return stopIdWork;
+  }
+  return;
+};
 
 // This api sends an SMS
 export default async function receive(req, res) {
@@ -91,11 +103,19 @@ export default async function receive(req, res) {
       .json({ message: "Setup lines to monitor on your settings page first" });
   }
 
+  const stopId = getStopIdFromSavedName(Body);
+  if (!stopId) {
+    return res.status(400).json({
+      message:
+        "Stop not recognized, setup stops to monitor on your settings page first",
+    });
+  }
+
   // fetch the times data for each line the user has saved
   let arrivalTimesPerLine;
   let formattedMessage;
   try {
-    arrivalTimesPerLine = await getArrivalTimesPerLine(userLines);
+    arrivalTimesPerLine = await getArrivalTimesPerLine(userLines, stopId);
     console.log("data from 511", arrivalTimesPerLine);
     if (!arrivalTimesPerLine || !arrivalTimesPerLine.data.length > 0) {
       throw new Error("Error fetching from times API");
