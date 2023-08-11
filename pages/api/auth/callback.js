@@ -10,7 +10,7 @@ export default async function callback(req, res) {
     client_id: process.env.TESLA_CLIENT_ID,
     client_secret: process.env.TESLA_CLIENT_SECRET,
     code,
-    redirect_uri: "https://zippy-seven.vercel.app/api/auth/callback",
+    redirect_uri: "https://zippy-seven.vercel.app/auth/callback",
     scope: "openid vehicle_device_data offline_access",
     audience: "https://fleet-api.prd.na.vn.cloud.tesla.com",
   };

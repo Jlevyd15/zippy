@@ -38,7 +38,7 @@ function Login() {
     }
   }
 
-  const redirect_uri = "https://zippy-seven.vercel.app/api/auth/callback";
+  const redirect_uri = "https://zippy-seven.vercel.app/auth/callback";
   const teslaAuthClientUrl = `https://auth.tesla.com/oauth2/v3/authorize?response_type=code&client_id=${process.env.TESLA_CLIENT_ID}&state=test4Turo&scope=vehicle_device_data+vehicle_cmds+offline_access+user_data+vehicle_charging_cmds&redirect_uri=${redirect_uri}`;
 
   return (
