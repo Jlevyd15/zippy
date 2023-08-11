@@ -1,42 +1,45 @@
-import { useState } from 'react'
-import Router from 'next/router'
-import Layout from '../components/layout'
+import { useState } from "react";
+import Router from "next/router";
+import Layout from "../components/layout";
 
 const signin = async (email, password) => {
-  const response = await fetch('/api/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
-  })
+  });
 
   if (response.status !== 200) {
-    throw new Error(await response.text())
+    throw new Error(await response.text());
   }
 
-  Router.push('/profile')
-}
+  Router.push("/profile");
+};
 
 function Login() {
   const [userData, setUserData] = useState({
-    email: '',
-    password: '',
-    error: '',
-  })
+    email: "",
+    password: "",
+    error: "",
+  });
 
   async function handleSubmit(event) {
-    event.preventDefault()
-    setUserData({ ...userData, error: '' })
+    event.preventDefault();
+    setUserData({ ...userData, error: "" });
 
-    const email = userData.email
-    const password = userData.password
+    const email = userData.email;
+    const password = userData.password;
 
     try {
-      await signin(email, password)
+      await signin(email, password);
     } catch (error) {
-      console.error(error)
-      setUserData({ ...userData, error: error.message })
+      console.error(error);
+      setUserData({ ...userData, error: error.message });
     }
   }
+
+  const redirect_uri = "https://zippy-seven.vercel.app/api/auth/callback";
+  const teslaAuthClientUrl = `https://auth.tesla.com/oauth2/v3/authorize?response_type=code&client_id=${process.env.TESLA_CLIENT_ID}&state=test4Turo&scope=vehicle_device_data+vehicle_cmds+offline_access+user_data+vehicle_charging_cmds&redirect_uri=${redirect_uri}`;
 
   return (
     <Layout>
@@ -70,6 +73,24 @@ function Login() {
           />
 
           <button type="submit">Login</button>
+
+          <p>- OR -</p>
+          <form action={teslaAuthClientUrl} method="get">
+            <input type="hidden" name="response_type" value="code" />
+            <input
+              type="hidden"
+              name="client_id"
+              value="c3ad1f2bc85a-4a0d-a6ca-c8b6c7dee6e5"
+            />
+            <input type="hidden" name="state" value="test4Turo" />
+            <input
+              type="hidden"
+              name="scope="
+              value="vehicle_device_data+vehicle_cmds+offline_access+user_data+vehicle_charging_cmds"
+            />
+            <input type="hidden" name="redirect_uri" value={redirect_uri} />
+            <button type="submit">Login with Tesla</button>
+          </form>
 
           {userData.error && <p className="error">Error: {userData.error}</p>}
         </form>
@@ -105,7 +126,7 @@ function Login() {
         }
       `}</style>
     </Layout>
-  )
+  );
 }
 
-export default Login
+export default Login;
