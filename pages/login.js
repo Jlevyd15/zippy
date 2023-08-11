@@ -75,7 +75,10 @@ function Login() {
           <button type="submit">Login</button>
 
           <p>- OR -</p>
-          <form action={teslaAuthClientUrl} method="get">
+          <form
+            action="https://auth.tesla.com/oauth2/v3/authorize"
+            method="get"
+          >
             <input type="hidden" name="response_type" value="code" />
             <input
               type="hidden"
@@ -85,7 +88,7 @@ function Login() {
             <input type="hidden" name="state" value="test4Turo" />
             <input
               type="hidden"
-              name="scope="
+              name="scope"
               value="vehicle_device_data+vehicle_cmds+offline_access+user_data+vehicle_charging_cmds"
             />
             <input type="hidden" name="redirect_uri" value={redirect_uri} />
