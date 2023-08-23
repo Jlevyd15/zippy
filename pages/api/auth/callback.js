@@ -10,7 +10,7 @@ export default async function callback(req, res) {
     client_id: process.env.TESLA_CLIENT_ID,
     client_secret: process.env.TESLA_CLIENT_SECRET,
     code,
-    redirect_uri: "https://zippy-seven.vercel.app/auth/callback",
+    redirect_uri: "https://zippy-seven.vercel.app/api/auth/callback",
     scope: "openid vehicle_device_data offline_access",
     audience: "https://fleet-api.prd.na.vn.cloud.tesla.com",
   };
@@ -22,6 +22,13 @@ export default async function callback(req, res) {
     },
     body: JSON.stringify(dataToSend), // Convert the data to JSON string
   };
+
+  // If test is found in the POST req don't call the actual Tesla API
+  if (test) {
+    console.log(`in test POST, ${JSON.stringify(requestData)}`);
+    res.json({ message: "Received callback", data: requestData });
+  }
+
   try {
     const response = await fetch(
       "https://auth.tesla.com/oauth2/v3/token",
@@ -30,7 +37,7 @@ export default async function callback(req, res) {
     console.log("Starting code exchange");
     const json = await response.json();
     const { access_token } = json.body;
-    return access_token;
+    res.json({ message: "Received token", data: { token: access_token } });
   } catch (err) {
     console.error("Error in callback from Tesla", err);
     res.json({

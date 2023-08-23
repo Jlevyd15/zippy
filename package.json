@@ -3,8 +3,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
-    "startTesla": "node server.js"
+    "start": "next start"
   },
   "dependencies": {
     "cookie": "^0.4.0",
